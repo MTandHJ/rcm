@@ -1,0 +1,6 @@
+foolbox==3.3.1
+freeplot==0.0.9
+torch==1.8.1
+torchaudio==0.8.1
+torchvision==0.9.1
+tqdm==4.61.2
