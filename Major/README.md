@@ -26,6 +26,8 @@
 
 - Shrinking sliding strides
 
+  [[ResNet18-1122](https://drive.google.com/file/d/11qOQWTRzYbttKHC2lFcUsLs4FYAeq13D/view?usp=sharing)]
+
 > python AT.py resnet18 cifar10 --scale-factor=1 --strides=1122
 >
 > python ALP.py resnet18 cifar10 --scale-factor=1 --strides=1122

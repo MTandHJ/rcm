@@ -24,6 +24,8 @@
 
 - Shrinking sliding strides
 
+  [[ResNet18-1122](https://drive.google.com/file/d/1lYT-alqsETt9hwhScxO6ZO8XNjs3adms/view?usp=sharing)]
+
 > python AT.py resnet18 cifar10 --scale-factor=1 --strides=1122
 >
 > python TRADES.py resnet18 cifar10 --scale-factor=1 --strides=1122 --leverage=6
