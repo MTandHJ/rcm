@@ -21,7 +21,7 @@ from .dict2obj import Config
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-ROOT = "../../data" # the path saving the data
+ROOT = "../data" # the path saving the data
 DOWNLOAD = False # whether to download the data
 
 SAVED_FILENAME = "paras.pt" # the filename of saved model paramters
@@ -51,6 +51,7 @@ TRANSFORMS = {
     'svhn': 'tensor,none',
     'cifar10': 'cifar,none',
     'cifar100': 'cifar,none',
+    'tinyimagenet': 'tinyimagenet,none',
     'validation': 'tensor,none'
 }
 
@@ -60,6 +61,7 @@ VALIDER = {
     "svhn": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
     "cifar10": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
     "cifar100": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
+    "tinyimagenet": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
 }
 
 # env settings
@@ -74,7 +76,8 @@ MEANS = {
     "fashionmnist": [0.,],
     'svhn': [0.5, 0.5, 0.5],
     "cifar10": [0.4914, 0.4824, 0.4467],
-    "cifar100": [0.5071, 0.4867, 0.4408]
+    "cifar100": [0.5071, 0.4867, 0.4408],
+    "tinyimagenet": [0.4601, 0.4330, 0.3732],
 }
 
 STDS = {
@@ -82,7 +85,8 @@ STDS = {
     "fashionmnist": [1.,],
     'svhn': [0.5, 0.5, 0.5],
     "cifar10": [0.2471, 0.2435, 0.2617],
-    "cifar100": [0.2675, 0.2565, 0.2761]
+    "cifar100": [0.2675, 0.2565, 0.2761],
+    "tinyimagenet": [0.2647, 0.2481, 0.2594],
 }
 
 # the settings of optimizers of which lr could be pointed

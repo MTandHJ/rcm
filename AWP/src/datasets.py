@@ -4,6 +4,7 @@ from typing import Callable, Optional, Tuple, List, Any
 import torch
 from torch.utils.data import Dataset
 import torchvision.transforms as T
+from torchvision.datasets import ImageFolder
 
 import numpy as np
 import os
@@ -86,6 +87,14 @@ class CIFAR100C(CIFAR10C):
     filename = "CIFAR-100-C"
 
 
+class TinyImageNet(ImageFolder):
+    filename = "tiny-imagenet-200"
+    def __init__(
+        self, root, split='train', transform=None, target_transform=None, **kwargs,
+    ):
+        root = os.path.join(root, self.filename, split)
+        super().__init__(root, transform=transform, target_transform=target_transform, **kwargs)
+
 
 class WrapperSet(Dataset):
 
@@ -136,5 +145,10 @@ AUGMENTATIONS = {
             T.RandomHorizontalFlip(),
             T.ToTensor()
     ]),
+    'tinyimagenet': Compose([
+            T.Pad(4, padding_mode='reflect'),
+            T.RandomCrop(64),
+            T.RandomHorizontalFlip(),
+            T.ToTensor()
+    ]),
 }
-
