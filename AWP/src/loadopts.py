@@ -29,6 +29,8 @@ def get_num_classes(dataset_type: str) -> int:
         return 10
     elif dataset_type in ('cifar100', ):
         return 100
+    elif dataset_type in ('tinyimagenet',):
+        return 200
     else:
         raise DatasetNotIncludeError("Dataset {0} is not included." \
                         "Refer to the following: {1}".format(dataset_type, _dataset.__doc__))
