@@ -54,6 +54,8 @@ def load_model(model_type: str) -> Callable[..., torch.nn.Module]:
     vggs = [
         'vgg11', 'vgg11_bn', 'vgg13', 'vgg13_bn', 'vgg16', 'vgg16_bn', 'vgg19', 'vgg19_bn'
     ]
+    vitbase = ['vitbase']
+    vits = ['vitsmall', 'vittiny']
 
     model: Callable[..., AdversarialDefensiveModule]
     if model_type == "alexnet":
@@ -74,6 +76,12 @@ def load_model(model_type: str) -> Callable[..., torch.nn.Module]:
     elif model_type in vggs:
         import models.vgg as vgg
         model = getattr(vgg, model_type)
+    elif model_type in vitbase:
+        import models.vit as vit
+        model = getattr(vit, model_type)
+    elif model_type in vits:
+        import models.vit_small as vit
+        model = getattr(vit, model_type)
     else:
         raise ModelNotDefineError(f"model {model_type} is not defined.\n" \
                 f"Refer to the following: {load_model.__doc__}\n")
