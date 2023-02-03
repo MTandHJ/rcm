@@ -139,8 +139,7 @@ def _dataset(
         )
     elif dataset_type == "tinyimagenet":
         from src.datasets import TinyImageNet
-        split = 'train' if train else 'val'
-        dataset = TinyImageNet(root=ROOT, split=split)
+        dataset = TinyImageNet(root=ROOT, train=train)
     else:
         raise DatasetNotIncludeError("Dataset {0} is not included." \
                         "Refer to the following: {1}".format(dataset_type, _dataset.__doc__))
