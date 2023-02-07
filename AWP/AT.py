@@ -34,7 +34,7 @@ parser.add_argument("--awp-warmup", type=int, default=0)
 parser.add_argument("--attack", type=str, default="pgd-linf")
 parser.add_argument("--epsilon", type=float, default=8/255)
 parser.add_argument("--stepsize", type=float, default=2/255)
-parser.add_argument("--steps", type=int, default=50)
+parser.add_argument("--steps", type=int, default=10)
 
 # basic settings
 parser.add_argument("--loss", type=str, default="cross_entropy")
@@ -62,7 +62,7 @@ parser.add_argument("--ratio", type=float, default=.0,
 # eval
 parser.add_argument("--eval-train", action="store_true", default=False)
 parser.add_argument("--eval-valid", action="store_false", default=True)
-parser.add_argument("--eval-freq", type=int, default=1,
+parser.add_argument("--eval-freq", type=int, default=50,
                 help="for valid dataset only")
 
 parser.add_argument("--resume", action="store_true", default=False)
