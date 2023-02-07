@@ -34,7 +34,7 @@ parser.add_argument("--awp-warmup", type=int, default=0)
 parser.add_argument("--attack", type=str, default="pgd-linf")
 parser.add_argument("--epsilon", type=float, default=8/255)
 parser.add_argument("--stepsize", type=float, default=2/255)
-parser.add_argument("--steps", type=int, default=10)
+parser.add_argument("--steps", type=int, default=50)
 
 # basic settings
 parser.add_argument("--loss", type=str, default="cross_entropy")

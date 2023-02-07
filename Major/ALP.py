@@ -62,7 +62,7 @@ parser.add_argument("--ratio", type=float, default=.0,
 # eval
 parser.add_argument("--eval-train", action="store_true", default=False)
 parser.add_argument("--eval-valid", action="store_false", default=True)
-parser.add_argument("--eval-freq", type=int, default=1,
+parser.add_argument("--eval-freq", type=int, default=50,
                 help="for valid dataset only")
 
 parser.add_argument("--resume", action="store_true", default=False)
