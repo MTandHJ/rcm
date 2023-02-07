@@ -27,8 +27,6 @@ for stride in strides:
             device=opts.device, scp=opts.scp,
             stride=stride, seed=seed
         )
-
-        command_type = "CUDA_VISIBLE_DEVICES={device} python {scp} resnet18 cifar10 --strides={stride} --seed={seed} -m={seed}"
-
+        print(f"====={command}======")
         os.system(command)
 
