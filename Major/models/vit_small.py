@@ -10,7 +10,7 @@ from einops.layers.torch import Rearrange
 
 # helpers
 
-__all__ = ['VitSmall', 'VitTiny']
+__all__ = ['vitsmall', 'vittiny']
 
 def pair(t):
     return t if isinstance(t, tuple) else (t, t)
@@ -147,7 +147,7 @@ class ViT(nn.Module):
 
 
 
-def ViTSmall(scale_factor = 1):
+def vitsmall(scale_factor = 1):
     return ViT(
         image_size=32 * scale_factor,
         patch_size=4,
@@ -161,7 +161,7 @@ def ViTSmall(scale_factor = 1):
     )
 
 
-def VitTiny(scale_factor = 1):
+def vittiny(scale_factor = 1):
     return ViT(
         image_size=32 * scale_factor,
         patch_size=4,

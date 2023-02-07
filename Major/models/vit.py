@@ -9,7 +9,7 @@ from einops.layers.torch import Rearrange
 # helpers
 
 
-__all__ = ['VitBase']
+__all__ = ['vitbase']
 
 def pair(t):
     return t if isinstance(t, tuple) else (t, t)
@@ -129,7 +129,7 @@ class ViT(nn.Module):
         return self.mlp_head(x)
 
 
-def ViTBase(scale_factor = 1):
+def vitbase(scale_factor = 1):
     return ViT(
         image_size= 32 * scale_factor,
         patch_size= 4,
