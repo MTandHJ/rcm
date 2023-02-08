@@ -15,12 +15,15 @@ from torch.utils.data.sampler import SubsetRandomSampler
 from torch.utils.data import Dataset
 from PIL import Image
 from autoaugment import CIFAR10Policy
-from models.resnet import ResNet18
+from models.cifar_resnet import resnet18
 import models
 import torchvision
 from defaults import use_default
 
 parser = argparse.ArgumentParser(description='PyTorch CIFAR TRADES Adversarial Training')
+
+parser.add_argument('--strides', type=str, default='1222')
+
 parser.add_argument('--arch', type=str, default='ResNet18')
 parser.add_argument('--batch-size', type=int, default=128, metavar='N',
                     help='input batch size for training (default: 128)')
@@ -51,11 +54,11 @@ parser.add_argument('--step-size', default=8, type=float,
                     help='perturb step size')
 parser.add_argument('--beta', default=11.0, type=float,
                     help='regularization, i.e., 1/lambda in TRADES')
-parser.add_argument('--seed', type=int, default=1, metavar='S',
+parser.add_argument('--seed', type=int, default=0, metavar='S',
                     help='random seed (default: 1)')
 parser.add_argument('--LS', type=int, default=0, metavar='S',
                     help='make 1 is want to use Label Smoothing. DAJAT uses LS only for CIFAR100 dataset')
-parser.add_argument('--model-dir', default='./model-cifar-ResNet',
+parser.add_argument('--model-dir', default='./resnet',
                     help='directory of model for saving checkpoint')
 parser.add_argument('--resume-model', default='', type=str,
                     help='directory of model for retraining')
@@ -74,8 +77,8 @@ parser.add_argument('--awp-warmup', default=10, type=int,
 parser.add_argument('--use_defaults', type=str, default='NONE' ,choices=['NONE','CIFAR10_RN18', 'CIFAR10_WRN','CIFAR100_WRN', 'CIFAR100_RN18'],
                     help='Use None is want to use the hyperparamters passed in the python training command else use the desired set of default hyperparameters')
 
-
 args = parser.parse_args()
+args.model_dir = f"{args.model_dir}-{args.strides}/{args.data}/{args.seed}"
 if args.use_defaults!='NONE':
     args = use_default(args.use_defaults)
 print(args)
@@ -406,11 +409,11 @@ def adjust_learning_rate_cosine(optimizer, epoch, args):
 
 def main():
     ################### Change here to WideResNet34 if you want to train on WRN-34-10 #############################
-    model = getattr(models, args.arch)(num_classes=NUM_CLASSES).to(device)
+    model = resnet18(num_classes=NUM_CLASSES, strides=args.strides).to(device)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
 
     ################### Change here to WideResNet34 if you want to train on WRN-34-10 #############################
-    proxy = getattr(models, args.arch)(num_classes=NUM_CLASSES).to(device)
+    proxy = resnet18(num_classes=NUM_CLASSES, strides=args.strides).to(device)
     proxy_optim = optim.SGD(proxy.parameters(), lr=args.lr)
     awp_adversary = TradesAWP(model=model, proxy=proxy, proxy_optim=proxy_optim, gamma=args.awp_gamma)
 
@@ -426,7 +429,7 @@ def main():
     start_wa = [(150*args.epochs)//200]
     tau_list = [0.9996]
     exp_avgs = []
-    model_tau = getattr(models, args.arch)(num_classes=NUM_CLASSES).to(device)
+    model_tau = resnet18(num_classes=NUM_CLASSES, strides=args.strides).to(device)
     exp_avgs.append(model_tau.state_dict())
     
     for epoch in range(args.start_epoch, args.epochs + 1):
@@ -450,7 +453,7 @@ def main():
         if epoch >=args.epochs-1:
             for idx, start_ep, tau, new_state_dict in zip(range(len(tau_list)), start_wa, tau_list, exp_avgs):
                 if start_ep <= epoch:
-                    torch.save(new_state_dict,os.path.join(model_dir, 'ours-model-epoch-SWA{}{}{}.pt'.format(tau,start_ep,epoch)))
+                    torch.save(new_state_dict, os.path.join(model_dir, 'ours-model-epoch-SWA{}{}{}.pt'.format(tau,start_ep,epoch)))
             
 
 if __name__ == '__main__':
