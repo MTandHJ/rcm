@@ -1,4 +1,3 @@
-
 from typing import Callable, Tuple
 import numpy as np
 import torch
@@ -25,7 +24,7 @@ class DatasetNotIncludeError(Exception): pass
 
 # return the num_classes of corresponding data set
 def get_num_classes(dataset_type: str) -> int:
-    if dataset_type in ('mnist', 'fashionmnist', 'svhn', 'cifar10'):
+    if dataset_type in ('mnist', 'fashionmnist', 'svhn', 'cifar10', 'imagenette'):
         return 10
     elif dataset_type in ('cifar100', ):
         return 100
@@ -38,10 +37,11 @@ def get_num_classes(dataset_type: str) -> int:
 
 def load_model(model_type: str) -> Callable[..., torch.nn.Module]:
     """
+    mnist: the model designed for MNIST dataset
+    cifar: the model designed for CIFAR dataset
     resnet8|20|32|44|110|1202
     resnet18|34|50|101|50_32x4d
     preactresnet18|34|50|101
-    vgg11|11_bn|13|13_bn|16|16_bn|19|19|bn   
     wrn_28_10: depth-28, width-10
     wrn_34_10: depth-34, width-10
     wrn_34_20: depth-34, width-20
@@ -51,16 +51,14 @@ def load_model(model_type: str) -> Callable[..., torch.nn.Module]:
     srns = ['resnet18', 'resnet34', 'resnet50', 'resnet101', 'resnext50_32x4d']
     prns = ['preactresnet18', 'preactresnet34', 'preactresnet50', 'preactresnet101']
     wrns = ['wrn_28_10', 'wrn_34_10', 'wrn_34_20']
-    vggs = [
-        'vgg11', 'vgg11_bn', 'vgg13', 'vgg13_bn', 'vgg16', 'vgg16_bn', 'vgg19', 'vgg19_bn'
-    ]
-    vitbase = ['vitbase']
-    vits = ['vitsmall', 'vittiny']
 
     model: Callable[..., AdversarialDefensiveModule]
-    if model_type == "alexnet":
-        from models.alexnet import alexnet
-        model = alexnet
+    if model_type == "mnist":
+        from models.mnist import MNIST
+        model = MNIST
+    elif model_type == "cifar":
+        from models.cifar import CIFAR
+        model = CIFAR
     elif model_type in resnets:
         import models.resnet as resnet
         model = getattr(resnet, model_type)
@@ -73,15 +71,6 @@ def load_model(model_type: str) -> Callable[..., torch.nn.Module]:
     elif model_type in wrns:
         import models.wide_resnet as wrn
         model = getattr(wrn, model_type)
-    elif model_type in vggs:
-        import models.vgg as vgg
-        model = getattr(vgg, model_type)
-    elif model_type in vitbase:
-        import models.vit as vit
-        model = getattr(vit, model_type)
-    elif model_type in vits:
-        import models.vit_small as vit
-        model = getattr(vit, model_type)
     else:
         raise ModelNotDefineError(f"model {model_type} is not defined.\n" \
                 f"Refer to the following: {load_model.__doc__}\n")
@@ -150,7 +139,12 @@ def _dataset(
         )
     elif dataset_type == "tinyimagenet":
         from src.datasets import TinyImageNet
-        dataset = TinyImageNet(root=ROOT, train=train)
+        split = 'train' if train else 'val'
+        dataset = TinyImageNet(root=ROOT, split=split)
+    elif dataset_type == "imagenette":
+        from src.datasets import ImageNette
+        split = 'train' if train else 'val'
+        dataset = ImageNette(root=ROOT, split=split)
     else:
         raise DatasetNotIncludeError("Dataset {0} is not included." \
                         "Refer to the following: {1}".format(dataset_type, _dataset.__doc__))

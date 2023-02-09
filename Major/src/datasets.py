@@ -202,6 +202,13 @@ class TinyImageNet(Dataset):
 
         return sample, tgt
 
+class ImageNette(ImageFolder):
+    filename = "imagenette2-160"
+    def __init__(
+        self, root, split='train', transform=None, target_transform=None, **kwargs,
+    ):
+        root = os.path.join(root, self.filename, split)
+        super().__init__(root, transform=transform, target_transform=target_transform, **kwargs)
 
 class WrapperSet(Dataset):
 
@@ -246,6 +253,11 @@ class WrapperSet(Dataset):
 AUGMENTATIONS = {
     'none' : Compose([IdentityTransform()]),
     'tensor': Compose([T.ToTensor()]),
+    '128resize': Compose([
+            T.Resize(144),
+            T.CenterCrop(128),
+            T.ToTensor(),
+    ]),
     'cifar': Compose([
             T.Pad(4, padding_mode='reflect'),
             T.RandomCrop(32),
@@ -258,4 +270,11 @@ AUGMENTATIONS = {
             T.RandomHorizontalFlip(),
             T.ToTensor()
     ]),
+    'imagenette': Compose([
+            T.RandomResizedCrop(128),
+            T.RandomHorizontalFlip(),
+            T.ToTensor()
+    ]),
 }
+
+

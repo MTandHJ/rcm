@@ -25,15 +25,16 @@ class DatasetNotIncludeError(Exception): pass
 
 # return the num_classes of corresponding data set
 def get_num_classes(dataset_type: str) -> int:
-    if dataset_type in ('mnist', 'fashionmnist', 'svhn', 'cifar10'):
+    if dataset_type in ('mnist', 'fashionmnist', 'svhn', 'cifar10', 'imagenette'):
         return 10
     elif dataset_type in ('cifar100', ):
         return 100
-    elif dataset_type in ('tinyimagenet',):
+    elif dataset_type in ('tinyimagenet', ):
         return 200
     else:
         raise DatasetNotIncludeError("Dataset {0} is not included." \
                         "Refer to the following: {1}".format(dataset_type, _dataset.__doc__))
+
 
 
 def load_model(model_type: str) -> Callable[..., torch.nn.Module]:

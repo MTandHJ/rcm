@@ -44,6 +44,7 @@ LOGGER = Config(
 # the seed for validloader preparation
 VALIDSEED = 1
 
+
 # default transforms
 TRANSFORMS = {
     'mnist': 'tensor,none',
@@ -52,6 +53,7 @@ TRANSFORMS = {
     'cifar10': 'cifar,none',
     'cifar100': 'cifar,none',
     'tinyimagenet': 'tinyimagenet,none',
+    'imagenette': 'imagenette,none',
     'validation': 'tensor,none'
 }
 
@@ -62,6 +64,7 @@ VALIDER = {
     "cifar10": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
     "cifar100": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
     "tinyimagenet": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
+    "imagenette": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
 }
 
 # env settings
@@ -78,6 +81,7 @@ MEANS = {
     "cifar10": [0.4914, 0.4824, 0.4467],
     "cifar100": [0.5071, 0.4867, 0.4408],
     "tinyimagenet": [0.4601, 0.4330, 0.3732],
+    "imagenette": [0.485, 0.456, 0.406]
 }
 
 STDS = {
@@ -87,6 +91,7 @@ STDS = {
     "cifar10": [0.2471, 0.2435, 0.2617],
     "cifar100": [0.2675, 0.2565, 0.2761],
     "tinyimagenet": [0.2647, 0.2481, 0.2594],
+    "imagenette": [0.229, 0.224, 0.225]
 }
 
 # the settings of optimizers of which lr could be pointed
