@@ -59,6 +59,7 @@ def load_model(model_type: str) -> Callable[..., torch.nn.Module]:
     model: Callable[..., AdversarialDefensiveModule]
     if model_type == "alexnet":
         from models.alexnet import alexnet
+        model = alexnet
     elif model_type in vggs:
         import models.vgg as vgg
         model = getattr(vgg, model_type)

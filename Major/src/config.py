@@ -64,7 +64,7 @@ VALIDER = {
     "cifar10": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
     "cifar100": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
     "tinyimagenet": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
-    "imagenette": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=10),
+    "imagenette": Config(attack_type="pgd-linf", epsilon=8/255, stepsize=2/255, steps=20),
 }
 
 # env settings

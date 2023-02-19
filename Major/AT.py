@@ -126,7 +126,7 @@ def load_cfg() -> Tuple[Config, str]:
         )
         validset = load_dataset(
             dataset_type=opts.dataset,
-            transforms="tensor,none",
+            transforms="128resize,none",
             train=False
         )
     cfg['trainloader'] = load_dataloader(
