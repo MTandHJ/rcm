@@ -51,14 +51,17 @@ def load_model(model_type: str) -> Callable[..., torch.nn.Module]:
     srns = ['resnet18', 'resnet34', 'resnet50', 'resnet101', 'resnext50_32x4d']
     prns = ['preactresnet18', 'preactresnet34', 'preactresnet50', 'preactresnet101']
     wrns = ['wrn_28_10', 'wrn_34_10', 'wrn_34_20']
+    vggs = [
+        'vgg11', 'vgg11_bn', 'vgg13', 'vgg13_bn', 'vgg16', 'vgg16_bn',
+        'vgg19_bn', 'vgg19',
+    ]
 
     model: Callable[..., AdversarialDefensiveModule]
-    if model_type == "mnist":
-        from models.mnist import MNIST
-        model = MNIST
-    elif model_type == "cifar":
-        from models.cifar import CIFAR
-        model = CIFAR
+    if model_type == "alexnet":
+        from models.alexnet import alexnet
+    elif model_type in vggs:
+        import models.vgg as vgg
+        model = getattr(vgg, model_type)
     elif model_type in resnets:
         import models.resnet as resnet
         model = getattr(resnet, model_type)
