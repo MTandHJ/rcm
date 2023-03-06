@@ -52,7 +52,7 @@ class ADArch(AdversarialDefensiveModule):
         super().__init__()
         self.arch = model
         if torch.cuda.device_count() > 1:
-            self.model = DataParallel(model)
+            self.model = DataParallel(model).to(device)
         else:
             self.model = model.to(device)
 
